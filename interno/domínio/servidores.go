@@ -1,5 +1,9 @@
 package domain
 
+import (
+	"encoding/json"
+)
+
 type Funcionario struct {
 	Id                int     `json:"id" gorm:"primaryKey;column:id"`
 	CodUJ             uint    `json:"cod_uj" gorm:"default:1000200;column:cd_uj"`
@@ -17,4 +21,21 @@ type Funcionario struct {
 	CategoriaSituacao uint    `json:"categoria_situacao" gorm:"column:cd_categoria_situacao"`
 	MesFolhaAno       string  `json:"mes_folha_ano" gorm:"default:10/2022;column:mes_folha_ano"`
 	ValorBruto        float32 `json:"valor_bruto" gorm:"column:vl_bruto"`
+}
+
+
+func (f *Funcionario) ToJson() (string, error) {
+	b, err := json.Marshal(f)
+	if err != nil {
+		return "",err
+	}
+	return string(b), nil
+}
+
+func FuncionariosToJson(fs []Funcionario) (string, error) {
+	b, err := json.Marshal(fs)
+	if err != nil {
+		return "",err
+	}
+	return string(b), nil
 }
